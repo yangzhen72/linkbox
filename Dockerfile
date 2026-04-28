@@ -1,5 +1,5 @@
 # LinkBox - All-in-one Dockerfile for Railway
-FROM python:3.13-slim
+FROM python:3.12-slim
 
 # Install Node.js for frontend build
 RUN apt-get update && apt-get install -y nodejs npm curl && rm -rf /var/lib/apt/lists/*
