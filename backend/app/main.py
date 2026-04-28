@@ -1,14 +1,21 @@
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 from .database import get_db, engine, Base
 from .models import User, Category, Link
 from .schemas import UserCreate, UserResponse, Token, CategoryCreate, CategoryResponse, LinkCreate, LinkResponse
 from .auth import verify_password, get_password_hash, create_access_token, get_current_user
+import os
 
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="LinkBox API")
+
+# Serve static files in production
+dist_path = os.path.join(os.path.dirname(__file__), '..', 'frontend', 'dist')
+if os.path.exists(dist_path):
+    app.mount("/", StaticFiles(directory=dist_path, html=True), name="static")
 
 @app.post("/register", response_model=UserResponse)
 def register(user: UserCreate, db: Session = Depends(get_db)):
