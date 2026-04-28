@@ -25,4 +25,13 @@ COPY frontend/nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 80
 
-CMD ["sh", "-c", "cd /app/backend && uvicorn app.main:app --host 0.0.0.0 --port 8000 & nginx -g 'daemon off;'"]
+# Use a startup script that waits for backend
+COPY --chmod=+x <<'EOF' /start.sh
+#!/bin/sh
+cd /app/backend
+uvicorn app.main:app --host 0.0.0.0 --port 8000 &
+sleep 3
+nginx -g 'daemon off;'
+EOF
+
+CMD ["/start.sh"]
