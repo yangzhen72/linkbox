@@ -13,7 +13,7 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI(title="LinkBox API")
 
 # Serve static files in production
-dist_path = os.path.join(os.path.dirname(__file__), '..', 'frontend', 'dist')
+dist_path = "/app/frontend/dist"
 if os.path.exists(dist_path):
     app.mount("/", StaticFiles(directory=dist_path, html=True), name="static")
 
