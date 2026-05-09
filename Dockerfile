@@ -19,4 +19,4 @@ COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
 EXPOSE 8080
 
 # Run backend only (frontend is served by backend in production)
-CMD ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["python", "-m", "uvicorn", "backend.app.main:app", "--host", "0.0.0.0", "--port", "8080"]
